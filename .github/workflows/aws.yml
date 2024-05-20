@@ -30,9 +30,9 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v3
       with:
         role-to-assume: arn:aws:iam::127489365181:role/gitaction-ecs-batch-role
-        role-session-name: Github
+        role-session-name: gitaction-ecs-batch-role
         aws-region: ${{ env.AWS_REGION }}
-        web-identity-token-file: ${{ steps.id-token.outputs.token }}
+        # web-identity-token-file: ${{ steps.id-token.outputs.token }}
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
