@@ -1,91 +1,39 @@
 {
-    "taskDefinition": {
-        "taskDefinitionArn": "arn:aws:ecs:us-east-1:127489365181:task-definition/redshift-ingestion:1",
-        "containerDefinitions": [
-            {
-                "name": "rd-ingestion-container",
-                "image": "127489365181.dkr.ecr.us-east-1.amazonaws.com/batch_ingestion:batch_ingestion",
-                "cpu": 0,
-                "portMappings": [
-                    {
-                        "containerPort": 80,
-                        "hostPort": 80,
-                        "protocol": "tcp",
-                        "name": "rd-ingestion-container-80-tcp",
-                        "appProtocol": "http"
-                    }
-                ],
-                "essential": true,
-                "environment": [],
-                "environmentFiles": [],
-                "mountPoints": [],
-                "volumesFrom": [],
-                "ulimits": [],
-                "logConfiguration": {
-                    "logDriver": "awslogs",
-                    "options": {
-                        "awslogs-create-group": "true",
-                        "awslogs-group": "/ecs/redshift-ingestion",
-                        "awslogs-region": "us-east-1",
-                        "awslogs-stream-prefix": "ecs"
-                    },
-                    "secretOptions": []
-                },
-                "systemControls": []
-            }
-        ],
-        "family": "redshift-ingestion",
-        "taskRoleArn": "arn:aws:iam::127489365181:role/ecsTaskExecutionRole",
-        "executionRoleArn": "arn:aws:iam::127489365181:role/ecsTaskExecutionRole",
-        "networkMode": "awsvpc",
-        "revision": 1,
-        "volumes": [],
-        "status": "ACTIVE",
-        "requiresAttributes": [
-            {
-                "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
-            },
-            {
-                "name": "ecs.capability.execution-role-awslogs"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.ecr-auth"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.task-iam-role"
-            },
-            {
-                "name": "ecs.capability.execution-role-ecr-pull"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-            },
-            {
-                "name": "ecs.capability.task-eni"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
-            }
-        ],
-        "placementConstraints": [],
-        "compatibilities": [
-            "EC2",
-            "FARGATE"
-        ],
-        "runtimePlatform": {
-            "cpuArchitecture": "ARM64",
-            "operatingSystemFamily": "LINUX"
-        },
-        "requiresCompatibilities": [
-            "FARGATE"
-        ],
-        "cpu": "2048",
-        "memory": "8192",
-        "registeredAt": "2024-05-20T18:04:56.562000+04:00",
-        "registeredBy": "arn:aws:iam::127489365181:root"
+    "family": "redshift-ingestion",
+    "taskRoleArn": "arn:aws:iam::127489365181:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::127489365181:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "cpu": "2048",
+    "memory": "8192",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "runtimePlatform": {
+        "cpuArchitecture": "ARM64",
+        "operatingSystemFamily": "LINUX"
     },
-    "tags": []
+    "containerDefinitions": [
+        {
+            "name": "rd-ingestion-container",
+            "image": "127489365181.dkr.ecr.us-east-1.amazonaws.com/batch_ingestion:batch_ingestion",
+            "cpu": 256,
+            "memory": 512,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/redshift-ingestion",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ]
 }
