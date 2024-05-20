@@ -11,7 +11,7 @@ env:
   ECS_SERVICE: redshift-batch-etl-service
   ECS_CLUSTER: batch_ingestion
   ECS_TASK_DEFINITION: .github/workflows/task-definition.json
-  CONTAINER_NAME: redshift-batch-etl-service
+  CONTAINER_NAME: rd-ingestion-container
 
 permissions:
   id-token: write
