@@ -1,28 +1,22 @@
 name: Deploy to Amazon ECS
-
 on:
   push:
     branches:
       - "main"
-
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: batch_ingestion
-  ECS_SERVICE: redshift-batch-etl-service
   ECS_CLUSTER: batch_ingestion
   ECS_TASK_DEFINITION: .github/workflows/task-definition.json
   CONTAINER_NAME: rd-ingestion-container
-
 permissions:
   id-token: write
   contents: read
-
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
-
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -36,7 +30,6 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -56,11 +49,14 @@ jobs:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
-
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-        # service: ${{ env.ECS_SERVICE }}
-        cluster: ${{ env.ECS_CLUSTER }}
-        wait-for-service-stability: true
+    - name: Register the ECS task definition
+      id: register-task-def
+      run: |
+        aws ecs register-task-definition --cli-input-json file://${{ env.ECS_TASK_DEFINITION }}
+    - name: Run ECS task
+      run: |
+        aws ecs run-task \
+          --cluster ${{ env.ECS_CLUSTER }} \
+          --task-definition redshift-ingestion \
+          --launch-type FARGATE \
+          --network-configuration "awsvpcConfiguration={subnets=[subnet-0ca83d7be1c28920c,subnet-09e2950dc4425ecb4],securityGroups=[sg-0114013e3e8b16fdc],assignPublicIp=ENABLED}"
