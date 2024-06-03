@@ -59,4 +59,4 @@ jobs:
           --cluster ${{ env.ECS_CLUSTER }} \
           --task-definition redshift-ingestion \
           --launch-type FARGATE \
-          --network-configuration "awsvpcConfiguration={subnets=[subnet-0ca83d7be1c28920c,subnet-09e2950dc4425ecb4],securityGroups=[sg-0114013e3e8b16fdc],assignPublicIp=ENABLED}"
+          --network-configuration "awsvpcConfiguration={subnets=[subnet-0ca83d7be1c28920c,subnet-09e2950dc4425ecb4],securityGroups=[sg-055e50e266d8c8d21],assignPublicIp=ENABLED}"
