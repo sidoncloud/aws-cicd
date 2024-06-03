@@ -5,9 +5,7 @@ import logging
 # Configure logging to send messages to CloudWatch
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
 bucket_name = "nl-aws-de-labs"
-
 try:
     conn = redshift_connector.connect(
         host='dwh-wg.127489365181.us-east-1.redshift-serverless.amazonaws.com',
